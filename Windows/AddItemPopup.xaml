@@ -1,0 +1,18 @@
+﻿<Window x:Name="AddItemWindow" x:Class="FoodWasteApp.AddItemPopup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:FoodWasteApp"
+        mc:Ignorable="d"
+        Title="AddItemPopup" Height="408" Width="440" Background="#FF505050">
+    <Grid>
+        <TextBox x:Name="Food_Name" HorizontalAlignment="Left" Margin="220,96,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="176" Height="18"/>
+        <Button x:Name="FoodButton" Content="Add Food" HorizontalAlignment="Left" Margin="156,240,0,0" VerticalAlignment="Top" Click="FoodButton_Click" Width="152" Height="53" Background="White" BorderThickness="10,10,10,10" BorderBrush="Black" Style="{DynamicResource RoundedButton}" />
+        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="1175,155,0,0" VerticalAlignment="Top"/>
+        <DatePicker x:Name="ExpiryChoice" HorizontalAlignment="Left" Margin="220,146,0,0" VerticalAlignment="Top" Width="176"/>
+        <TextBox HorizontalAlignment="Left" Height="46" Margin="103,82,0,0" TextWrapping="Wrap" Text="Food Name" VerticalAlignment="Top" Width="105" TextAlignment="Center" Background="{x:Null}" FontSize="22" FontFamily="Acme Gothic" BorderBrush="{x:Null}"/>
+        <TextBox HorizontalAlignment="Left" Margin="121,140,0,0" TextWrapping="Wrap" Text="Expiry Date" VerticalAlignment="Top" Width="69" Background="{x:Null}" BorderBrush="{x:Null}" FontSize="22" FontFamily="Acme Gothic" TextAlignment="Center"/>
+    </Grid>
+</Window>

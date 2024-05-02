@@ -1,0 +1,17 @@
+﻿<Window x:Class="FoodWasteApp.ConfirmationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FoodWasteApp"
+        mc:Ignorable="d"
+        Title="ConfirmationWindow" Height="331" Width="464" WindowStyle="None" Background="#FF4C4C4C">
+    <Grid>
+
+        <Button x:Name="YesButton" Content="Yes" HorizontalAlignment="Left" Margin="85,209,0,0" VerticalAlignment="Top" Height="52" Width="120" Click="YesButton_Click"/>
+        <Button x:Name="NoButton" Content="No" HorizontalAlignment="Left" Margin="293,209,0,0" VerticalAlignment="Top" Height="52" Width="120" Click="NoButton_Click"/>
+        <Border BorderBrush="#FFB50707" BorderThickness="5" Margin="76,88,63,146">
+            <TextBlock HorizontalAlignment="Center" Margin="0,5,0,0" TextWrapping="Wrap" Text="If left unchanged, the Expiry Date will be set to today's date. Do you wish to continue? " VerticalAlignment="Top" Height="87" Width="306" Foreground="White" FontWeight="Bold" FontSize="18" Background="#FF4C4C4C" TextAlignment="Center"/>
+        </Border>
+    </Grid>
+</Window>

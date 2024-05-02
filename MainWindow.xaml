@@ -1,0 +1,43 @@
+﻿<Window x:Name="WindowMain" x:Class="FoodWasteApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="MainWindow1" Height="538" Width="954" Foreground="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" WindowState="Maximized" Background="#FF5F5F5F" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen">
+    <Grid x:Name="Main_Grid">
+        <Grid.Background>
+            <ImageBrush Stretch="UniformToFill" ImageSource="/WindowBg.png"/>
+        </Grid.Background>
+        <Label x:Name="Date_Tracker" Content="Test" Style="{StaticResource MyLabelStyle}" BorderBrush="#FF790000" FontSize="14" BorderThickness="3,3,3,3" Background="#FF969696" HorizontalAlignment="Right" Width="200" Height="35" FontFamily="Azonix" Foreground="#FF171717" Margin="0,160,404,0" VerticalAlignment="Top"/>
+
+        <Button x:Name="AddItem" Content="Add Item" Height="30" Width="180" Background="#FFAFACAC" Click="AddItem_Click" RenderTransformOrigin="0.535,0.133" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,210">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0"/>
+                    <RotateTransform Angle="0"/>
+                    <TranslateTransform X="0.702"/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Label Width="180" RenderTransformOrigin="0.661,-0.221" Height="29" Content="Your Pantry" Background="#FFAFACAC" HorizontalContentAlignment="Center" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,420,209">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+        <Grid x:Name="OuterPantryGrid" HorizontalAlignment="Right" Height="210" VerticalAlignment="Bottom" Width="600">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
+                <Grid x:Name="Pantry_Grid" RenderTransformOrigin="0.5,0" Background="Black" Width="600" ClipToBounds="True" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            </ScrollViewer>
+        </Grid>
+        <Button x:Name="Populate" Content="Populate" HorizontalAlignment="Left" Margin="139,145,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <Button x:Name="ClearGrid" Content="Clear" HorizontalAlignment="Left" Margin="139,215,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+
+    </Grid>
+</Window>
