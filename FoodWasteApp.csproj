@@ -16,14 +16,4 @@
     <Page Remove="Fonts\Acme Gothic Font Family - 25 Fonts\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="2023-02-19-21_04_59-vlc.png" />
-    <None Remove="WindowBg.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="2023-02-19-21_04_59-vlc.png" />
-    <Resource Include="WindowBg.png" />
-  </ItemGroup>
-
 </Project>
