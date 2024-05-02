@@ -16,4 +16,12 @@
     <Page Remove="Fonts\Acme Gothic Font Family - 25 Fonts\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="WindowBg.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="WindowBg.png" />
+  </ItemGroup>
+
 </Project>
