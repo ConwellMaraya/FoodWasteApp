@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa5="http://schemas.fontawesome.com/icons/"
         mc:Ignorable="d"
         Title="MainWindow1" Height="538" Width="954" Foreground="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" WindowState="Maximized" Background="#FF5F5F5F" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen">
     <Grid x:Name="Main_Grid">
@@ -36,8 +37,11 @@
                 <Grid x:Name="Pantry_Grid" RenderTransformOrigin="0.5,0" Background="Black" Width="600" ClipToBounds="True" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             </ScrollViewer>
         </Grid>
-        <Button x:Name="Populate" Content="Populate" HorizontalAlignment="Left" Margin="139,145,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <Button x:Name="ClearGrid" Content="Clear" HorizontalAlignment="Left" Margin="139,215,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <Grid Margin="0,0,744,0">
+            <Button x:Name="Settings" Content="Settings" HorizontalAlignment="Left" Margin="49,261,0,0" VerticalAlignment="Top" Height="40" Width="120" Style="{DynamicResource RoundedButton}" Click="Settings_Click"/>
+            <Button x:Name="HowTo" Content="Help" HorizontalAlignment="Left" Margin="49,358,0,0" VerticalAlignment="Top" Height="40" Width="120" Style="{DynamicResource RoundedButton}" RenderTransformOrigin="0.479,0.038"/>
+            <Image x:Name="Logo" HorizontalAlignment="Left" Height="83" Margin="10,91,0,0" VerticalAlignment="Top" Width="195" Source="/2024-05-05-14_42_33-firefox.png"/>
+        </Grid>
 
     </Grid>
 </Window>

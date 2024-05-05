@@ -1,0 +1,15 @@
+﻿<Window x:Class="FoodWasteApp.Windows.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="SettingsWindow" Height="450" Width="800" Background="#FF777777">
+    <Grid x:Name="Griddy">
+        <Button Content="Pantry Text" HorizontalAlignment="Left" Margin="150,65,0,0" VerticalAlignment="Top" Height="50" Width="88" Style="{DynamicResource RoundedButton}" Click="Button_Click"/>
+        <Button Content="Pantry Color" HorizontalAlignment="Left" Margin="150,0,0,0" VerticalAlignment="Center" Height="50" Width="88" Style="{DynamicResource RoundedButton}" Click="Button_Click_1"/>
+        <xctk:ColorPicker x:Name="PantryTextColor" Margin="270,79,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="177"></xctk:ColorPicker>
+        <xctk:ColorPicker x:Name="PantryBGColor" HorizontalAlignment="Left" VerticalAlignment="Center" Width="174" Margin="273,0,0,0"/>
+    </Grid>
+</Window>

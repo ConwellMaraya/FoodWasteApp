@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="ItemWindowPopup" Height="331" Width="667" WindowStyle="None" Background="#FF7B7B7B">
     <Grid x:Name="maingrid">
-        <TextBlock x:Name="FoodName" HorizontalAlignment="Left" Margin="65,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="59" Width="166" FontSize="18" Background="White"/>
-        <TextBlock x:Name="DateString" HorizontalAlignment="Left" Margin="65,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Height="59" Width="166" FontSize="18" Background="White"/>
-        <Button Content="Consumed" HorizontalAlignment="Left" Margin="65,263,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <Button Content="Wasted" HorizontalAlignment="Left" Margin="171,263,0,0" VerticalAlignment="Top" Click="Button_Click_1"/>
-        <Button Content="Close Popup" HorizontalAlignment="Left" Margin="247,263,0,0" VerticalAlignment="Top" Click="Button_Click_2"/>
+        <TextBlock x:Name="FoodName" HorizontalAlignment="Left" Margin="65,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="59" Width="166" FontSize="18" Background="White"/>
+        <TextBlock x:Name="DateString" HorizontalAlignment="Left" Margin="457,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="60" Width="166" FontSize="18" Background="White"/>
+        <Button x:Name="Consumed_Button" Content="Consumed" HorizontalAlignment="Left" Margin="92,174,0,0" VerticalAlignment="Top" Click="Button_Click" Height="55" Width="112" RenderTransformOrigin="0.396,0.466"/>
+        <Button x:Name="Wasted_Button" Content="Wasted" HorizontalAlignment="Left" Margin="484,174,0,0" VerticalAlignment="Top" Click="Button_Click_1" Width="112" Height="55"/>
+        <Button Content="Close Popup" HorizontalAlignment="Center" Margin="0,273,0,0" VerticalAlignment="Top" Click="Button_Click_2"/>
 
     </Grid>
 </Window>
