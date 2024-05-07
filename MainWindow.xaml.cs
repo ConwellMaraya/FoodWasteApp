@@ -2,6 +2,7 @@
 using FoodWasteApp.Windows;
 using System.Collections;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
@@ -27,34 +28,24 @@ namespace FoodWasteApp
     public partial class MainWindow : Window
     {
         private List<FoodButton> buttonList = new List<FoodButton>();
-        
+        private System.Windows.Media.Brush? PantryBG;
+        private System.Windows.Media.Brush? PantryText;
         
 
 
 
         public MainWindow()
         {
-            if (!File.Exists("Pantry_List.json5"))
-                File.Create("Pantry_List.json5").Close();
-            if(!File.Exists("Dispose_List.json5"))
-                File.Create("Dispose_List.json5").Close();
-            if(!File.Exists("Consumed_List.json5"))
-                File.Create("Consumed_List.json5").Close();
-            if (File.Exists("Settings.ini"))
-                File.Create("Settings.ini").Close();
 
+            
 
             InitializeComponent();
+#pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
             Application.Current.MainWindow.Closing += new CancelEventHandler(onWindowClose);
-            setupPantryGrid("Pantry_List.Json5");
+#pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
             setLabelDate();
-            // Requires Microsoft.Toolkit.Uwp.Notifications NuGet package version 7.0 or greater
-            new ToastContentBuilder()
-                .AddArgument("action", "viewConversation")
-                .AddArgument("conversationId", 9813)
-                .AddText("Andrew sent you a picture")
-                .AddText("Check this out, The Enchantments in Washington!");
-                 // Not seeing the Show() method? Make sure you have version 7.0, and if you're using .NET 6 (or later), then your TFM must be net6.0-windows10.0.17763.0 or greater
+            
+                
 
 
 
@@ -103,9 +94,9 @@ namespace FoodWasteApp
                 Width = 300,
                 Height = 30,
                 Margin = new Thickness(0, 0, 0, 0),
-                Foreground = new SolidColorBrush(Colors.White),
-                Background = new SolidColorBrush(Colors.Black),
-                FontFamily = new FontFamily("Kayak Sans"),
+                Foreground = PantryText,
+                Background = PantryBG,
+                FontFamily = new System.Windows.Media.FontFamily("Kayak Sans"),
                 FontSize = 15,
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -126,11 +117,11 @@ namespace FoodWasteApp
                 Width = 300,
                 Height = 30,
                 Margin = new Thickness(0, 0, 0, 0),
-                Foreground = new SolidColorBrush(Colors.White),
-                Background = new SolidColorBrush(Colors.Black),
+                Foreground = PantryText,
+                Background = PantryBG,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Top,
-                FontFamily = new FontFamily("Kayak Sans"),
+                FontFamily = new System.Windows.Media.FontFamily("Kayak Sans"),
                 FontSize = 15,
             };
 
@@ -145,15 +136,20 @@ namespace FoodWasteApp
             {
                 string ln = "";
                 Dictionary<string, int> expiredFood = new Dictionary<string, int>();
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
                 while ((ln = file.ReadLine()) != null)
                 {
+                    // if line does not have ':', it's invalid and is skipped
+                    if (ln.IndexOf(':') == -1)
+                        continue;
+
                     string foodName = ln.Substring(0, ln.IndexOf(':'));
                     DateTime expDate;
                     if (DateTime.TryParse(ln.Substring(ln.IndexOf(":") + 1), out expDate)) 
                     {
                         if (expDate >= DateTime.Today.Date)
                         {
-                            AddItemToGrid(foodName, expDate.ToString("MM/dd/yyyy"));
+                            AddItemToGrid(foodName, expDate.ToString("MM/dd/yyyy"),true);
                         }
                         else 
                         {
@@ -165,21 +161,29 @@ namespace FoodWasteApp
                         }
                     }
 
-                    if (expiredFood.Count > 0) 
+                    else 
                     {
-                        string msg = "These foods have expired, please dispose of them immediately:\n";
-                        foreach(string x in expiredFood.Keys)
-                        { 
-                            msg += (x + ":" + expiredFood[x] + '\n');
-                        }
-
-                        System.Windows.MessageBox.Show(msg);
-                    
+                        continue;
                     }
 
+                    
 
                     
                 }
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+
+                if (expiredFood.Count > 0)
+                {
+                    string msg = "These foods have expired, please dispose of them immediately:\n";
+                    foreach (string x in expiredFood.Keys)
+                    {
+                        msg += (x + ":" + expiredFood[x] + '\n');
+                    }
+
+                    System.Windows.MessageBox.Show(msg);
+
+                }
+
 
 
 
@@ -189,7 +193,7 @@ namespace FoodWasteApp
         /// <summary>
         /// <para>Input: Void</para>
         /// <para>Output: Void</para>
-        /// <para>Process: Sets up the grid to represent your pantry during Grid Reload</para>
+        /// <para>Process: Sets up the grid to represent your pantry during Grid Rebuild</para>
         /// </summary>
         private void setupPantryGrid()
         {
@@ -216,9 +220,9 @@ namespace FoodWasteApp
                 Width = 300,
                 Height = 30,
                 Margin = new Thickness(0, 0, 0, 0),
-                Foreground = new SolidColorBrush(Colors.White),
-                Background = new SolidColorBrush(Colors.Black),
-                FontFamily = new FontFamily("Kayak Sans"),
+                Foreground = PantryText,
+                Background = PantryBG,
+                FontFamily = new System.Windows.Media.FontFamily("Kayak Sans"),
                 FontSize = 15,
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -239,11 +243,11 @@ namespace FoodWasteApp
                 Width = 300,
                 Height = 30,
                 Margin = new Thickness(0, 0, 0, 0),
-                Foreground = new SolidColorBrush(Colors.White),
-                Background = new SolidColorBrush(Colors.Black),
+                Foreground = PantryText,
+                Background = PantryBG,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Top,
-                FontFamily = new FontFamily("Kayak Sans"),
+                FontFamily = new System.Windows.Media.FontFamily("Kayak Sans"),
                 FontSize = 15,
             };
 
@@ -282,7 +286,7 @@ namespace FoodWasteApp
 
             if (!open && b)
             {
-                AddItemToGrid(s, t);
+                AddItemToGrid(s, t, true);
                 
             }
 
@@ -295,7 +299,7 @@ namespace FoodWasteApp
         /// </summary>
         /// <param name="foodName"></param>
         /// <param name="expiryDate"></param>
-        private void AddItemToGrid(string foodName, string expiryDate)
+        private void AddItemToGrid(string foodName, string expiryDate, bool AddToButtonList)
         {
             FoodButton x = new FoodButton
             {
@@ -305,11 +309,11 @@ namespace FoodWasteApp
                 Width = 300,
                 Height = 30,
                 Margin = new Thickness(0, 0, 0, 0),
-                Foreground = new SolidColorBrush(Colors.White),
-                Background = new SolidColorBrush(Colors.Black),
+                Foreground = PantryText,
+                Background = PantryBG,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Center,
-                FontFamily = new FontFamily("Kayak Sans"),
+                FontFamily = new System.Windows.Media.FontFamily("Kayak Sans"),
                 FontSize = 15,
                 ExpDate = expiryDate,
                 BorderThickness = new Thickness(0)
@@ -320,7 +324,8 @@ namespace FoodWasteApp
             x.Click += new RoutedEventHandler(FoodButtonClicked);
             Pantry_Grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(30) });
             Pantry_Grid.Children.Add(x);
-            buttonList.Add(x);
+            if (AddToButtonList)
+                buttonList.Add(x);
             Grid.SetRow(x, Pantry_Grid.RowDefinitions.Count - 1);
             Grid.SetColumn(x, 0);
 
@@ -331,11 +336,11 @@ namespace FoodWasteApp
                 Width = 300,
                 Height = 30,
                 Margin = new Thickness(0, 0, 0, 0),
-                Foreground = new SolidColorBrush(Colors.White),
-                Background = new SolidColorBrush(Colors.Black),
+                Foreground = PantryText,
+                Background = PantryBG,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Center,
-                FontFamily = new FontFamily("Kayak Sans"),
+                FontFamily = new System.Windows.Media.FontFamily("Kayak Sans"),
                 FontSize = 15,
 
             };
@@ -349,62 +354,7 @@ namespace FoodWasteApp
             return;
         }
 
-        /// <summary>
-        /// <para>Input: String foodName String expriyDate</para>
-        /// <para>Output: Void</para>
-        /// <para>Process: Same as <see cref="AddItemToGrid(string, string)"/>, but removed the line to add items to <see cref="buttonList"/> to avoid modifying the list</para>
-        /// </summary>
-        /// <param name="foodName"></param>
-        /// <param name="expiryDate"></param>
-        private void RebuildGridHelper(string foodName, string expDate)
-        {
-            FoodButton x = new FoodButton
-            {
-                Content = foodName,
-                HorizontalContentAlignment = HorizontalAlignment.Center,
-                Width = 300,
-                Height = 30,
-                Margin = new Thickness(0, 0, 0, 0),
-                Foreground = new SolidColorBrush(Colors.White),
-                Background = new SolidColorBrush(Colors.Black),
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Top,
-                FontFamily = new FontFamily("Kayak Sans"),
-                FontSize = 15,
-                ExpDate = expDate,
-                BorderThickness = new Thickness(0)
-
-
-            };
-
-            x.Click += new RoutedEventHandler(FoodButtonClicked);
-            Pantry_Grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(30) });
-            Pantry_Grid.Children.Add(x);
-            Grid.SetRow(x, Pantry_Grid.RowDefinitions.Count - 1);
-            Grid.SetColumn(x, 0);
-
-            TextBlock y = new TextBlock
-            {
-                Text = expDate,
-                TextAlignment = TextAlignment.Center,
-                Width = 300,
-                Height = 30,
-                Margin = new Thickness(0, 0, 0, 0),
-                Foreground = new SolidColorBrush(Colors.White),
-                Background = new SolidColorBrush(Colors.Black),
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Top,
-                FontFamily = new FontFamily("Kayak Sans"),
-                FontSize = 15,
-
-            };
-
-            Pantry_Grid.Children.Add(y);
-            Grid.SetRow(y, Pantry_Grid.RowDefinitions.Count - 1);
-            Grid.SetColumn(y, 1);
-
-            return;
-        }
+       
 
         
 
@@ -427,20 +377,18 @@ namespace FoodWasteApp
             foreach (FoodButton b in buttonList)
             {
                 //Will never be null despite the warning
-                RebuildGridHelper(b.Content.ToString(), b.ExpDate);
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+                string name = b.Content.ToString();
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+
+                if (name != null)
+                    AddItemToGrid(name, b.ExpDate, false);
             }
 
             buttonList.Clear();
 
             buttonList = Pantry_Grid.Children.OfType<FoodButton>().ToList();
 
-
-
-            
-
-
-            
-            
         }
 
 
@@ -452,38 +400,38 @@ namespace FoodWasteApp
         public void FoodButtonClicked(object sender, RoutedEventArgs e)
         {
             FoodButton b = (FoodButton)sender;
-            
-            ItemWindowPopup i = new ItemWindowPopup(b.Content.ToString(),b.ExpDate);   
-            i.ShowDialog();
-            int retcode = i.retInt;
 
-            switch (retcode) 
-            { 
-                case 0:
-                    addToList("Consumed_List.json5", b.Content.ToString());
-                    buttonList.Remove(b);
-                    RebuildGrid();
-                    break;
-                case 1:
-                    addToList("Disposed_List.json5", b.Content.ToString());
-                    buttonList.Remove(b);
-                    RebuildGrid();
-                    break;
-                default:
-                    break;
-            
+
+            string name = b.Content.ToString();
+
+
+            if (name != null )
+            {
+                ItemWindowPopup i = new ItemWindowPopup(name, b.ExpDate);
+                i.ShowDialog();
+                int retcode = i.retInt;
+
+                switch (retcode)
+                {
+                    case 0:
+                        addToList("Consumed_List.json5", name);
+                        buttonList.Remove(b);
+                        RebuildGrid();
+                        break;
+                    case 1:
+                        addToList("Disposed_List.json5", name);
+                        buttonList.Remove(b);
+                        RebuildGrid();
+                        break;
+                    default:
+                        break;
+
+                }
             }
         }
 
         
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            for (int i = 1; i < 1000; i++)
-            {
-                AddItemToGrid(Pantry_Grid.RowDefinitions.Count.ToString(), Pantry_Grid.RowDefinitions.Count.ToString());
-            }
-        }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
@@ -509,6 +457,7 @@ namespace FoodWasteApp
 
             using (StreamReader file = new StreamReader(fileName))
             {
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
                 while ((ln = file.ReadLine()) != null)
                 {
                     string check = ln.Substring(0, ln.IndexOf(':'));
@@ -520,17 +469,21 @@ namespace FoodWasteApp
                     }
                     ctr++;
                 }
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 
-               
+
 
             }
 
             if (lineFlag)
             {
-                int num = Int32.Parse(ln.Substring(ln.IndexOf(":") + 1));
-                num++;
-                replaceLine = foodName + ":" + num.ToString();
-                lineChanger(replaceLine, fileName, ctr);
+               if (ln != null)
+                {
+                    int num = Int32.Parse(ln[(ln.IndexOf(":") + 1)..]);
+                    num++;
+                    replaceLine = foodName + ":" + num.ToString();
+                    lineChanger(replaceLine, fileName, ctr);
+                }
             }
             else
             {
@@ -545,17 +498,27 @@ namespace FoodWasteApp
 
         
 
-        static void lineChanger(string newText, string fileName, int line_to_edit)
+        private void lineChanger(string newText, string fileName, int line_to_edit)
         {
             string[] arrLine = File.ReadAllLines(fileName);
             arrLine[line_to_edit] = newText;
             File.WriteAllLines(fileName, arrLine);
         }
 
-        static void settingReader(string fileName, int lineNum)
+        private void settingReader(string fileName, int lineNum, ref System.Windows.Media.Brush setting)
         {
             string[] arrLine = File.ReadAllLines(fileName);
-
+            string s = arrLine[lineNum];
+            if (s != null)
+            {
+                System.Windows.Media.Brush? b = new BrushConverter().ConvertFrom(s) as System.Windows.Media.Brush;
+                if (b != null)
+                {
+                    setting = b.Clone();
+                    //System.Windows.MessageBox.Show("WORKS");
+                    //setupPantryGrid();
+                } 
+            }
         }
 
 
@@ -581,23 +544,113 @@ namespace FoodWasteApp
                     }
                     
             }
+            
+            using (TextWriter txt = new StreamWriter("Settings.ini"))
+            {
+                if (PantryBG != null)
+                    txt.WriteLine(PantryBG.ToString());
+                if (PantryText != null)
+                    txt.WriteLine(PantryText.ToString());
+                txt.Close();
+            }
+
 
             Environment.Exit(0);
 
         }
 
+        private void changeColor()
+        {
+            foreach (TextBlock x in Pantry_Grid.Children.OfType<TextBlock>().ToList())
+            {
+                x.Foreground = PantryText;
+                x.Background = PantryBG;
+            }
+
+            foreach (FoodButton x in Pantry_Grid.Children.OfType<FoodButton>().ToList())
+            {
+                x.Foreground = PantryText;
+                x.Background = PantryBG;
+            }
+        }
+
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
-            SettingsWindow settingsWindow = new SettingsWindow();
-            settingsWindow.Show();
+            if (PantryText != null && PantryBG != null)
+            {
+                SettingsWindow settingsWindow = new SettingsWindow(PantryBG, PantryText);
+                bool open = true;
+                settingsWindow.Closed += delegate
+                {
+                    open = false;
+                };
+                settingsWindow.ShowDialog();
+                bool retcode = settingsWindow.retcode;
+
+
+
+
+
+                if (retcode && !open)
+                {
+                    PantryBG = new SolidColorBrush(settingsWindow.PantryBGColorHolder);
+                    PantryText = new SolidColorBrush(settingsWindow.PantryTextColorHolder);
+                    changeColor();
+                }
+            }
+        }
+
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            for (int i = 0; i < 1000; i++) 
+            {
+                AddItemToGrid(Pantry_Grid.RowDefinitions.Count.ToString(), DateTime.Now.Date.ToString("MM/dd/yyyy"), true);
+            }
+        }
+
+        private void WindowMain_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (!File.Exists("Pantry_List.json5"))
+                File.Create("Pantry_List.json5").Close();
+            if (!File.Exists("Dispose_List.json5"))
+                File.Create("Dispose_List.json5").Close();
+            if (!File.Exists("Consumed_List.json5"))
+                File.Create("Consumed_List.json5").Close();
+            if (!File.Exists("Settings.ini"))
+            {
+                File.Create("Settings.ini").Close();
+                using (TextWriter t = new StreamWriter("Settings.ini", true))
+                {
+                    t.Write("#FF000000" + '\n' + "#FFFFFFFF");
+                    t.Close();
+                }
+            }
+
+            PantryBG = new SolidColorBrush();
+            PantryText = new SolidColorBrush();
+            if (PantryBG != null)
+            {
+                settingReader("Settings.ini", 0, ref PantryBG);
+            }
+            if (PantryText != null)
+                settingReader("Settings.ini", 1, ref PantryText);
+            setupPantryGrid("Pantry_List.json5");
         }
     }
+
+
 
 
 
     public class FoodButton : Button
     {
         public string ExpDate { get; set; }
+
+        public FoodButton()
+        {
+            ExpDate = DateTime.Now.Date.ToString();
+        }
     }
 
     

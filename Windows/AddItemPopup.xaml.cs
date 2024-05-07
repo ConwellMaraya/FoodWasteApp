@@ -20,7 +20,6 @@ namespace FoodWasteApp
     /// </summary>
     public partial class AddItemPopup : Window
     {
-        Boolean wasPressed = false;
         
         public AddItemPopup()
         {

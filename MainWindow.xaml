@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa5="http://schemas.fontawesome.com/icons/"
         mc:Ignorable="d"
-        Title="MainWindow1" Height="538" Width="954" Foreground="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" WindowState="Maximized" Background="#FF5F5F5F" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen">
+        Title="MainWindow1" Height="538" Width="954" Foreground="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" WindowState="Maximized" Background="#FF5F5F5F" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" Loaded="WindowMain_Loaded">
     <Grid x:Name="Main_Grid">
         <Grid.Background>
             <ImageBrush Stretch="UniformToFill" ImageSource="/WindowBg.png"/>
@@ -42,6 +42,7 @@
             <Button x:Name="HowTo" Content="Help" HorizontalAlignment="Left" Margin="49,358,0,0" VerticalAlignment="Top" Height="40" Width="120" Style="{DynamicResource RoundedButton}" RenderTransformOrigin="0.479,0.038"/>
             <Image x:Name="Logo" HorizontalAlignment="Left" Height="83" Margin="10,91,0,0" VerticalAlignment="Top" Width="195" Source="/2024-05-05-14_42_33-firefox.png"/>
         </Grid>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="398,108,0,0" VerticalAlignment="Top" Click="Button_Click" Visibility="Hidden"/>
 
     </Grid>
 </Window>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Windows.Media.Playback;
 using Xceed.Wpf.Toolkit;
 
 namespace FoodWasteApp.Windows
@@ -20,15 +22,24 @@ namespace FoodWasteApp.Windows
     /// </summary>
     public partial class SettingsWindow : Window
     {
-        
-        public SettingsWindow()
+        public System.Windows.Media.Color PantryBGColorHolder { get; set; }
+        public System.Windows.Media.Color PantryTextColorHolder { get; set; }
+
+        public bool retcode { get; set; } = false;
+        public bool IsClosed { get; private set; } = false;
+
+
+
+        public SettingsWindow(System.Windows.Media.Brush OGPantryBG, System.Windows.Media.Brush OGPantryText)
         {
             
             InitializeComponent();
             PantryBGColor.Visibility = Visibility.Hidden;
             PantryTextColor.Visibility = Visibility.Hidden;
-            PantryBGColor.SelectedColorChanged += PantryBGColor_SelectedColorChanged;
-            PantryBGColor.SelectedColor = (Color)ColorConverter.ConvertFromString("#FF000000");
+            PantryBGColor.SelectedColor = ((SolidColorBrush)OGPantryBG).Color;
+            PantryBGColorHolder = ((SolidColorBrush)OGPantryBG).Color;
+            PantryTextColor.SelectedColor = ((SolidColorBrush)OGPantryText).Color;
+            PantryTextColorHolder = ((SolidColorBrush)OGPantryText).Color;
 
 
 
@@ -37,11 +48,6 @@ namespace FoodWasteApp.Windows
 
         }
 
-        private void PantryBGColor_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
-        {
-            ColorPicker s = (ColorPicker)sender;
-            System.Windows.MessageBox.Show(s.SelectedColor.ToString());
-        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -51,6 +57,28 @@ namespace FoodWasteApp.Windows
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             PantryBGColor.Visibility = Visibility.Visible;
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            if (PantryBGColor.SelectedColor != PantryBGColorHolder)
+            {
+#pragma warning disable CS8629 // Nullable value type may be null.
+                PantryBGColorHolder = (System.Windows.Media.Color)PantryBGColor.SelectedColor;
+#pragma warning restore CS8629 // Nullable value type may be null.
+                retcode = true;
+            }
+
+            if (PantryTextColor.SelectedColor != PantryTextColorHolder)
+            {
+#pragma warning disable CS8629 // Nullable value type may be null.
+                PantryTextColorHolder = (System.Windows.Media.Color)PantryTextColor.SelectedColor;
+#pragma warning restore CS8629 // Nullable value type may be null.
+                retcode = true;
+            }
+
+            IsClosed = true;
         }
 
 
