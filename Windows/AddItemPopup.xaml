@@ -6,13 +6,13 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:FoodWasteApp"
         mc:Ignorable="d"
-        Title="AddItemPopup" Height="408" Width="440" Background="#FF505050">
+        Title="AddItemPopup" Height="408" Width="440" Background="#FF505050" Loaded="AddItemWindow_Loaded">
     <Grid>
-        <TextBox x:Name="Food_Name" HorizontalAlignment="Left" Margin="220,96,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="176" Height="18"/>
         <Button x:Name="FoodButton" Content="Add Food" HorizontalAlignment="Left" Margin="156,240,0,0" VerticalAlignment="Top" Click="FoodButton_Click" Width="152" Height="53" Background="White" BorderThickness="10,10,10,10" BorderBrush="Black" Style="{DynamicResource RoundedButton}" />
         <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="1175,155,0,0" VerticalAlignment="Top"/>
         <DatePicker x:Name="ExpiryChoice" HorizontalAlignment="Left" Margin="220,146,0,0" VerticalAlignment="Top" Width="176"/>
         <TextBlock HorizontalAlignment="Left" Height="46" Margin="108,82,0,0" TextWrapping="Wrap" Text="Food Name" VerticalAlignment="Top" Width="95" TextAlignment="Center" Background="{x:Null}" FontSize="22" FontFamily="Acme Gothic" />
         <TextBlock HorizontalAlignment="Left" Margin="121,140,0,0" TextWrapping="Wrap" Text="Expiry Date" VerticalAlignment="Top" Width="69" Background="{x:Null}"  FontSize="22" FontFamily="Acme Gothic" TextAlignment="Center"/>
+        <ComboBox x:Name="Food_Name" HorizontalAlignment="Left" Margin="220,83,0,0" VerticalAlignment="Top" Width="176" Height="22"/>
     </Grid>
 </Window>

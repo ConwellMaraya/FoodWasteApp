@@ -11,7 +11,7 @@
         <Button x:Name="YesButton" Content="Yes" HorizontalAlignment="Left" Margin="85,209,0,0" VerticalAlignment="Top" Height="52" Width="120" Click="YesButton_Click"/>
         <Button x:Name="NoButton" Content="No" HorizontalAlignment="Left" Margin="293,209,0,0" VerticalAlignment="Top" Height="52" Width="120" Click="NoButton_Click"/>
         <Border BorderBrush="#FFB50707" BorderThickness="5" Margin="76,88,63,146">
-            <TextBlock HorizontalAlignment="Center" Margin="0,5,0,0" TextWrapping="Wrap" Text="If left unchanged, the Expiry Date will be set to today's date. Do you wish to continue? " VerticalAlignment="Top" Height="87" Width="306" Foreground="White" FontWeight="Bold" FontSize="18" Background="#FF4C4C4C" TextAlignment="Center"/>
+            <TextBlock HorizontalAlignment="Center" Margin="0,5,0,0" TextWrapping="Wrap" Text="If left unchanged, the Expiry Date will be set to tommorow's date. Do you wish to continue? " VerticalAlignment="Top" Height="87" Width="306" Foreground="White" FontWeight="Bold" FontSize="18" Background="#FF4C4C4C" TextAlignment="Center"/>
         </Border>
     </Grid>
 </Window>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
@@ -20,11 +21,12 @@ namespace FoodWasteApp
     /// </summary>
     public partial class AddItemPopup : Window
     {
-        
+        private List<string> items = new List<string>();
         public AddItemPopup()
         {
             this.IsInputValid = false;
             InitializeComponent();
+            
         }
 
         public string FoodItemName
@@ -75,7 +77,7 @@ namespace FoodWasteApp
             
             }
 
-            if (!dateWasChanged || (DateTime.Now.Date.CompareTo(ExpiryChoice.SelectedDate)) == 0)
+            if (!dateWasChanged)
             {
                 ConfirmationWindow c = new ConfirmationWindow();
                 c.ShowDialog();
@@ -87,12 +89,44 @@ namespace FoodWasteApp
 
                 else
                 {
-                    ExpiryChoice.Text = DateTime.Now.ToString("MM/dd/yyyy");
+                    ExpiryChoice.Text = DateTime.Now.AddDays(1).ToString();
                 }
             }
             this.IsInputValid = true;
             this.Close();
         }
 
+        private void AddItemWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            using (StreamReader s = new StreamReader("Consumed_List.json5"))
+            {
+                string line = "";
+                while ((line = s.ReadLine()) != null) 
+                {
+                    line = line.Substring(0, line.IndexOf(':'));
+                    if (items.Contains(line))
+                        continue;
+                    else
+                        items.Add(line);
+                }
+            }
+
+            using (StreamReader s = new StreamReader("Disposed_List.json5"))
+            {
+                string line = "";
+                while ((line = s.ReadLine()) != null)
+                {
+                    line = line.Substring(0, line.IndexOf(':'));
+                    if (items.Contains(line))
+                        continue;
+                    else
+                        items.Add(line);
+                }
+            }
+
+            Food_Name.ItemsSource = items;
+            Food_Name.IsEditable = true;
+            Food_Name.StaysOpenOnEdit = true;
+        }
     }
 }

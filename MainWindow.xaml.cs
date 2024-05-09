@@ -30,37 +30,93 @@ namespace FoodWasteApp
         private List<FoodButton> buttonList = new List<FoodButton>();
         private System.Windows.Media.Brush? PantryBG;
         private System.Windows.Media.Brush? PantryText;
-        
+        private string? ConsumedString;
+        private string? DisposedString;
 
 
 
         public MainWindow()
         {
-
-            
-
             InitializeComponent();
 #pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
             Application.Current.MainWindow.Closing += new CancelEventHandler(onWindowClose);
 #pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
-            setLabelDate();
-            
-                
-
-
-
-
-
-
-
         }
 
 
         
 
-        private void setLabelDate()
+        private void setMainWindowLabels()
         {
             Date_Tracker.Content = "Today is: " + DateTime.Now.ToString("MM/dd/yyyy");
+
+            using (StreamReader s = new StreamReader("Consumed_List.json5"))
+            {
+                string line = "";
+                int ctr = 0;
+                string name = "";
+                int num = 0;
+                while ((line = s.ReadLine()) != null)
+                {
+                    if (ctr == 0)
+                    {
+                        name = line.Substring(0, line.IndexOf(':'));
+                        num = Int32.Parse(line.Substring(line.IndexOf(":")+1));
+                        ctr++;
+                    }
+
+                    else
+                    {
+                        string tempname = line.Substring(0, line.IndexOf(':'));
+                        int tempnum = Int32.Parse(line.Substring(line.IndexOf(":")+1));
+
+                        if (tempnum > num)
+                        {
+                            name = tempname;
+                            num = tempnum;
+                        }
+                        ctr++;
+                    }
+                    
+                }
+
+                ConsumedString = "Most Consumed Food:\n"+ name;
+            }
+
+            using (StreamReader s = new StreamReader("Disposed_List.json5"))
+            {
+                string line = "";
+                int ctr = 0;
+                string name = "";
+                int num = 0;
+                while ((line = s.ReadLine()) != null)
+                {
+                    if (ctr == 0)
+                    {
+                        name = line.Substring(0, line.IndexOf(':'));
+                        num = Int32.Parse(line.Substring(line.IndexOf(":")+1));
+                        ctr++;
+                    }
+
+                    else
+                    {
+                        string tempname = line.Substring(0, line.IndexOf(':'));
+                        int tempnum = Int32.Parse(line.Substring(line.IndexOf(":")+1));
+
+                        if (tempnum > num)
+                        {
+                            name = tempname;
+                            num = tempnum;
+                        }
+                        ctr++;
+                    }
+
+                }
+
+                DisposedString = "Most Disposed Food:\n" + name;
+            }
+            GreatestConsumed.Content = ConsumedString;
+            GreatestWasted.Content = DisposedString;
         }
 
         /// <summary>
@@ -153,7 +209,7 @@ namespace FoodWasteApp
                         }
                         else 
                         {
-                            addToList("Dispose_List.json5", foodName);
+                            addToList("Disposed_List.json5", foodName);
                             if (expiredFood.ContainsKey(foodName))
                                 expiredFood[foodName]++;
                             else
@@ -287,7 +343,7 @@ namespace FoodWasteApp
             if (!open && b)
             {
                 AddItemToGrid(s, t, true);
-                
+                RebuildGrid();
             }
 
         }
@@ -300,6 +356,38 @@ namespace FoodWasteApp
         /// <param name="foodName"></param>
         /// <param name="expiryDate"></param>
         private void AddItemToGrid(string foodName, string expiryDate, bool AddToButtonList)
+        {
+            FoodButton x = createFoodItemAndAddToList(foodName, expiryDate, AddToButtonList);
+            TextBlock y = new TextBlock
+            {
+                Text = expiryDate,
+                TextAlignment = TextAlignment.Center,
+                Width = 300,
+                Height = 30,
+                Margin = new Thickness(0, 0, 0, 0),
+                Foreground = PantryText,
+                Background = PantryBG,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontFamily = new System.Windows.Media.FontFamily("Kayak Sans"),
+                FontSize = 15,
+
+            };
+
+            Pantry_Grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(30) });
+            Pantry_Grid.Children.Add(x);
+            Grid.SetRow(x, Pantry_Grid.RowDefinitions.Count - 1);
+            Grid.SetColumn(x, 0);
+            Pantry_Grid.Children.Add(y);
+            Grid.SetRow(y, Pantry_Grid.RowDefinitions.Count - 1);
+            Grid.SetColumn(y, 1);
+            
+            
+            
+            return;
+        }
+
+        private FoodButton createFoodItemAndAddToList(string foodName, string expiryDate, bool addToList)
         {
             FoodButton x = new FoodButton
             {
@@ -320,40 +408,12 @@ namespace FoodWasteApp
 
 
             };
-
             x.Click += new RoutedEventHandler(FoodButtonClicked);
-            Pantry_Grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(30) });
-            Pantry_Grid.Children.Add(x);
-            if (AddToButtonList)
+            if (addToList)
                 buttonList.Add(x);
-            Grid.SetRow(x, Pantry_Grid.RowDefinitions.Count - 1);
-            Grid.SetColumn(x, 0);
 
-            TextBlock y = new TextBlock
-            {
-                Text = expiryDate,
-                TextAlignment = TextAlignment.Center,
-                Width = 300,
-                Height = 30,
-                Margin = new Thickness(0, 0, 0, 0),
-                Foreground = PantryText,
-                Background = PantryBG,
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Center,
-                FontFamily = new System.Windows.Media.FontFamily("Kayak Sans"),
-                FontSize = 15,
-
-            };
-
-            Pantry_Grid.Children.Add(y);
-            Grid.SetRow(y, Pantry_Grid.RowDefinitions.Count - 1);
-            Grid.SetColumn(y, 1);
-            
-            
-            
-            return;
+            return x;
         }
-
        
 
         
@@ -372,8 +432,9 @@ namespace FoodWasteApp
 
 
             setupPantryGrid();
+            setMainWindowLabels();
 
-
+            buttonList.Sort((x, y) => (DateTime.Parse(x.ExpDate).CompareTo(DateTime.Parse(y.ExpDate))));
             foreach (FoodButton b in buttonList)
             {
                 //Will never be null despite the warning
@@ -388,6 +449,7 @@ namespace FoodWasteApp
             buttonList.Clear();
 
             buttonList = Pantry_Grid.Children.OfType<FoodButton>().ToList();
+            buttonList.Sort((x, y) => (DateTime.Parse(x.ExpDate).CompareTo(DateTime.Parse(y.ExpDate))));
 
         }
 
@@ -609,12 +671,47 @@ namespace FoodWasteApp
             }
         }
 
+        private void ExpiryToast()
+        {
+            foreach (FoodButton b in buttonList)
+            {
+                TimeSpan diff = DateTime.Parse(b.ExpDate) - DateTime.Now;
+                if (diff.Days > 1)
+                {
+                    new ToastContentBuilder()
+                        .AddArgument("action", "viewConversation")
+                        .AddArgument("conversationId", 9813)
+                        .AddText("This Food Item is about to Expire in " + diff.Days.ToString() + " Days")
+                        .AddText(b.Content.ToString())
+                        .Show(); 
+                }
+                else if (diff.Days == 1)
+                {
+                    new ToastContentBuilder()
+                        .AddArgument("action", "viewConversation")
+                        .AddArgument("conversationId", 9813)
+                        .AddText("This Food Item is about to Expire in " + diff.Days.ToString() + " Day")
+                        .AddText(b.Content.ToString())
+                        .Show();
+                }
+                else if (diff.Days == 0)
+                {
+                    new ToastContentBuilder()
+                        .AddArgument("action", "viewConversation")
+                        .AddArgument("conversationId", 9813)
+                        .AddText("This Food Item is about to Expire Today")
+                        .AddText(b.Content.ToString())
+                        .Show();
+                }
+            }
+        }
+
         private void WindowMain_Loaded(object sender, RoutedEventArgs e)
         {
             if (!File.Exists("Pantry_List.json5"))
                 File.Create("Pantry_List.json5").Close();
-            if (!File.Exists("Dispose_List.json5"))
-                File.Create("Dispose_List.json5").Close();
+            if (!File.Exists("Disposed_List.json5"))
+                File.Create("Disposed_List.json5").Close();
             if (!File.Exists("Consumed_List.json5"))
                 File.Create("Consumed_List.json5").Close();
             if (!File.Exists("Settings.ini"))
@@ -630,12 +727,12 @@ namespace FoodWasteApp
             PantryBG = new SolidColorBrush();
             PantryText = new SolidColorBrush();
             if (PantryBG != null)
-            {
                 settingReader("Settings.ini", 0, ref PantryBG);
-            }
             if (PantryText != null)
                 settingReader("Settings.ini", 1, ref PantryText);
             setupPantryGrid("Pantry_List.json5");
+            setMainWindowLabels();
+            ExpiryToast();
         }
     }
 
@@ -652,6 +749,8 @@ namespace FoodWasteApp
             ExpDate = DateTime.Now.Date.ToString();
         }
     }
+
+
 
     
 

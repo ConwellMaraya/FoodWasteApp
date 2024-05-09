@@ -10,7 +10,11 @@
         <Grid.Background>
             <ImageBrush Stretch="UniformToFill" ImageSource="/WindowBg.png"/>
         </Grid.Background>
-        <Label x:Name="Date_Tracker" Content="Test" Style="{StaticResource MyLabelStyle}" BorderBrush="#FF790000" FontSize="14" BorderThickness="3,3,3,3" Background="#FF969696" HorizontalAlignment="Right" Width="200" Height="35" FontFamily="Azonix" Foreground="#FF171717" Margin="0,160,404,0" VerticalAlignment="Top"/>
+        <Label x:Name="Date_Tracker" Content="Test" Style="{StaticResource MyLabelStyle}" BorderBrush="White" FontSize="14" BorderThickness="3,3,3,3" HorizontalAlignment="Right" Width="200" Height="35" FontFamily="Azonix" Foreground="#FF171717" Margin="0,160,404,0" VerticalAlignment="Top" OpacityMask="Black">
+            <Label.Background>
+                <SolidColorBrush Color="#FF5F5F5F" Opacity="0.75"/>
+            </Label.Background>
+        </Label>
 
         <Button x:Name="AddItem" Content="Add Item" Height="30" Width="180" Background="#FFAFACAC" Click="AddItem_Click" RenderTransformOrigin="0.535,0.133" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,1,210">
             <Button.RenderTransform>
@@ -43,6 +47,16 @@
             <Image x:Name="Logo" HorizontalAlignment="Left" Height="83" Margin="10,91,0,0" VerticalAlignment="Top" Width="195" Source="/2024-05-05-14_42_33-firefox.png"/>
         </Grid>
         <Button Content="Button" HorizontalAlignment="Left" Margin="398,108,0,0" VerticalAlignment="Top" Click="Button_Click" Visibility="Hidden"/>
+        <Label x:Name="GreatestConsumed" Content="" Style="{StaticResource MyLabelStyle}" BorderBrush="White" FontSize="14" BorderThickness="3,3,3,3" HorizontalAlignment="Right" Width="210" Height="75" FontFamily="Azonix" Foreground="#FF171717" Margin="0,52,90,0" VerticalAlignment="Top" OpacityMask="Black">
+            <Label.Background>
+                <SolidColorBrush Color="#FF5F5F5F" Opacity="0.75"/>
+            </Label.Background>
+        </Label>
+        <Label x:Name="GreatestWasted" Content="" Style="{StaticResource MyLabelStyle}" BorderBrush="White" FontSize="14" BorderThickness="3,3,3,3" HorizontalAlignment="Right" Width="210" Height="75" FontFamily="Azonix" Foreground="#FF171717" Margin="0,186,90,0" VerticalAlignment="Top" OpacityMask="Black">
+            <Label.Background>
+                <SolidColorBrush Color="#FF5F5F5F" Opacity="0.75"/>
+            </Label.Background>
+        </Label>
 
     </Grid>
 </Window>

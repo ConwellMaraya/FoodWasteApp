@@ -26,9 +26,14 @@ namespace FoodWasteApp.Windows
         {
             
             InitializeComponent();
-            FoodName.Text = foodname;
-            DateString.Text = datestring;
+            FoodName.Content = foodname;
+            DateString.Content = datestring;
             retInt = 0;
+            FoodName.HorizontalContentAlignment = HorizontalAlignment.Center;
+            DateString.HorizontalContentAlignment = HorizontalAlignment.Center;
+            FoodName.VerticalContentAlignment = VerticalAlignment.Center;
+            DateString.VerticalContentAlignment = VerticalAlignment.Center;
+
             
 
         }
