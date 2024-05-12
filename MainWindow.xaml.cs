@@ -58,17 +58,20 @@ namespace FoodWasteApp
                 int num = 0;
                 while ((line = s.ReadLine()) != null)
                 {
+                    int index = line.IndexOf(':');
+                    if (index == -1)
+                        continue;
                     if (ctr == 0)
                     {
-                        name = line.Substring(0, line.IndexOf(':'));
-                        num = Int32.Parse(line.Substring(line.IndexOf(":")+1));
+                        name = line.Substring(0,index);
+                        num = Int32.Parse(line.Substring(index + 1));
                         ctr++;
                     }
 
                     else
                     {
-                        string tempname = line.Substring(0, line.IndexOf(':'));
-                        int tempnum = Int32.Parse(line.Substring(line.IndexOf(":")+1));
+                        string tempname = line.Substring(0, index);
+                        int tempnum = Int32.Parse(line.Substring(index +1));
 
                         if (tempnum > num)
                         {
@@ -91,17 +94,20 @@ namespace FoodWasteApp
                 int num = 0;
                 while ((line = s.ReadLine()) != null)
                 {
+                    int index = line.IndexOf(':');
+                    if (index == -1)
+                        continue;
                     if (ctr == 0)
                     {
-                        name = line.Substring(0, line.IndexOf(':'));
-                        num = Int32.Parse(line.Substring(line.IndexOf(":")+1));
+                        name = line.Substring(0, index);
+                        num = Int32.Parse(line.Substring(index + 1));
                         ctr++;
                     }
 
                     else
                     {
-                        string tempname = line.Substring(0, line.IndexOf(':'));
-                        int tempnum = Int32.Parse(line.Substring(line.IndexOf(":")+1));
+                        string tempname = line.Substring(0, index);
+                        int tempnum = Int32.Parse(line.Substring(index + 1));
 
                         if (tempnum > num)
                         {
@@ -437,13 +443,13 @@ namespace FoodWasteApp
             buttonList.Sort((x, y) => (DateTime.Parse(x.ExpDate).CompareTo(DateTime.Parse(y.ExpDate))));
             foreach (FoodButton b in buttonList)
             {
-                //Will never be null despite the warning
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-                string name = b.Content.ToString();
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+                if (b.Content != null)
+                {
+                    string name = b.Content.ToString();
 
-                if (name != null)
-                    AddItemToGrid(name, b.ExpDate, false);
+                    if (name != null)
+                        AddItemToGrid(name, b.ExpDate, false);
+                }
             }
 
             buttonList.Clear();
@@ -522,7 +528,12 @@ namespace FoodWasteApp
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
                 while ((ln = file.ReadLine()) != null)
                 {
-                    string check = ln.Substring(0, ln.IndexOf(':'));
+                    int index = ln.IndexOf(':');
+
+                    if (index == -1)
+                        continue;
+                     
+                    string check = ln.Substring(0, index);
                     
                     if (check == foodName)
                     {
@@ -553,7 +564,7 @@ namespace FoodWasteApp
                 replaceLine = foodName + ":" + num.ToString();
                 using (TextWriter writer = new StreamWriter(fileName, true))
                 {
-                    writer.WriteLine(replaceLine);
+                    writer.WriteLine("\n"+replaceLine);
                 }
             }
         }
@@ -573,13 +584,14 @@ namespace FoodWasteApp
             string s = arrLine[lineNum];
             if (s != null)
             {
-                System.Windows.Media.Brush? b = new BrushConverter().ConvertFrom(s) as System.Windows.Media.Brush;
+                var converter = new System.Windows.Media.BrushConverter();
+                System.Windows.Media.Brush? b = converter.ConvertFromString(s) as System.Windows.Media.Brush;
                 if (b != null)
                 {
                     setting = b.Clone();
                     //System.Windows.MessageBox.Show("WORKS");
                     //setupPantryGrid();
-                } 
+                }
             }
         }
 
@@ -719,9 +731,15 @@ namespace FoodWasteApp
                 File.Create("Settings.ini").Close();
                 using (TextWriter t = new StreamWriter("Settings.ini", true))
                 {
-                    t.Write("#FF000000" + '\n' + "#FFFFFFFF");
+                    t.Write("#FF000000\n");
                     t.Close();
                 }
+                using (TextWriter t = new StreamWriter("Settings.ini", true))
+                {
+                    t.Write("#FFFFFFFF");
+                    t.Close();
+                }
+
             }
 
             PantryBG = new SolidColorBrush();
@@ -733,6 +751,12 @@ namespace FoodWasteApp
             setupPantryGrid("Pantry_List.json5");
             setMainWindowLabels();
             ExpiryToast();
+        }
+
+        private void HowTo_Click(object sender, RoutedEventArgs e)
+        {
+            HelpWindow h = new HelpWindow();
+            h.Show();
         }
     }
 

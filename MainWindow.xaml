@@ -5,14 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa5="http://schemas.fontawesome.com/icons/"
         mc:Ignorable="d"
-        Title="MainWindow1" Height="538" Width="954" Foreground="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" WindowState="Maximized" Background="#FF5F5F5F" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" Loaded="WindowMain_Loaded">
+        Title="MainWindow1" Height="540" Width="956" Foreground="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Background="#FF592B03" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" Loaded="WindowMain_Loaded">
     <Grid x:Name="Main_Grid">
-        <Grid.Background>
-            <ImageBrush Stretch="UniformToFill" ImageSource="/WindowBg.png"/>
-        </Grid.Background>
         <Label x:Name="Date_Tracker" Content="Test" Style="{StaticResource MyLabelStyle}" BorderBrush="White" FontSize="14" BorderThickness="3,3,3,3" HorizontalAlignment="Right" Width="200" Height="35" FontFamily="Azonix" Foreground="#FF171717" Margin="0,160,404,0" VerticalAlignment="Top" OpacityMask="Black">
             <Label.Background>
-                <SolidColorBrush Color="#FF5F5F5F" Opacity="0.75"/>
+                <SolidColorBrush Color="#FFBF5B04" Opacity="0.75"/>
             </Label.Background>
         </Label>
 
@@ -43,18 +40,18 @@
         </Grid>
         <Grid Margin="0,0,744,0">
             <Button x:Name="Settings" Content="Settings" HorizontalAlignment="Left" Margin="49,261,0,0" VerticalAlignment="Top" Height="40" Width="120" Style="{DynamicResource RoundedButton}" Click="Settings_Click"/>
-            <Button x:Name="HowTo" Content="Help" HorizontalAlignment="Left" Margin="49,358,0,0" VerticalAlignment="Top" Height="40" Width="120" Style="{DynamicResource RoundedButton}" RenderTransformOrigin="0.479,0.038"/>
-            <Image x:Name="Logo" HorizontalAlignment="Left" Height="83" Margin="10,91,0,0" VerticalAlignment="Top" Width="195" Source="/2024-05-05-14_42_33-firefox.png"/>
+            <Button x:Name="HowTo" Content="Help" HorizontalAlignment="Left" Margin="49,358,0,0" VerticalAlignment="Top" Height="40" Width="120" Style="{DynamicResource RoundedButton}" RenderTransformOrigin="0.479,0.038" Click="HowTo_Click"/>
+            <Image x:Name="Logo" HorizontalAlignment="Left" Height="68" Margin="29,108,0,0" VerticalAlignment="Top" Width="160" Source="/2024-05-05-14_42_33-firefox.png"/>
         </Grid>
         <Button Content="Button" HorizontalAlignment="Left" Margin="398,108,0,0" VerticalAlignment="Top" Click="Button_Click" Visibility="Hidden"/>
-        <Label x:Name="GreatestConsumed" Content="" Style="{StaticResource MyLabelStyle}" BorderBrush="White" FontSize="14" BorderThickness="3,3,3,3" HorizontalAlignment="Right" Width="210" Height="75" FontFamily="Azonix" Foreground="#FF171717" Margin="0,52,90,0" VerticalAlignment="Top" OpacityMask="Black">
+        <Label x:Name="GreatestConsumed" Content="" Style="{StaticResource MyLabelStyle}" BorderBrush="White" FontSize="14" BorderThickness="3,3,3,3" HorizontalAlignment="Right" Width="210" Height="75" FontFamily="Azonix" Foreground="#FF171717" Margin="0,43,90,0" VerticalAlignment="Top" OpacityMask="Black">
             <Label.Background>
-                <SolidColorBrush Color="#FF5F5F5F" Opacity="0.75"/>
+                <SolidColorBrush Color="#FFBF5B04" Opacity="0.75"/>
             </Label.Background>
         </Label>
-        <Label x:Name="GreatestWasted" Content="" Style="{StaticResource MyLabelStyle}" BorderBrush="White" FontSize="14" BorderThickness="3,3,3,3" HorizontalAlignment="Right" Width="210" Height="75" FontFamily="Azonix" Foreground="#FF171717" Margin="0,186,90,0" VerticalAlignment="Top" OpacityMask="Black">
+        <Label x:Name="GreatestWasted" Content="" Style="{StaticResource MyLabelStyle}" BorderBrush="White" FontSize="14" BorderThickness="3,3,3,3" HorizontalAlignment="Right" Width="210" Height="75" FontFamily="Azonix" Foreground="#FF171717" Margin="0,141,90,0" VerticalAlignment="Top" OpacityMask="Black">
             <Label.Background>
-                <SolidColorBrush Color="#FF5F5F5F" Opacity="0.75"/>
+                <SolidColorBrush Color="#FFBF5B04" Opacity="0.75"/>
             </Label.Background>
         </Label>
 

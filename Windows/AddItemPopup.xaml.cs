@@ -103,7 +103,10 @@ namespace FoodWasteApp
                 string line = "";
                 while ((line = s.ReadLine()) != null) 
                 {
-                    line = line.Substring(0, line.IndexOf(':'));
+                    int index = line.IndexOf(':');
+                    if (index == -1)
+                        continue;
+                    line = line.Substring(0, index);
                     if (items.Contains(line))
                         continue;
                     else
@@ -116,7 +119,10 @@ namespace FoodWasteApp
                 string line = "";
                 while ((line = s.ReadLine()) != null)
                 {
-                    line = line.Substring(0, line.IndexOf(':'));
+                    int index = line.IndexOf(':');
+                    if (index == -1)
+                        continue;
+                    line = line.Substring(0, index);
                     if (items.Contains(line))
                         continue;
                     else
